@@ -1,0 +1,33 @@
+version: "2"
+services:
+  nginx:
+    image: nginx:alpine
+    volumes:
+     - ./nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
+     - ./nginx/common:/usr/share/nginx/html/common
+     - ./nginx/log:/var/log
+    ports:
+     - "3000:3000"
+    depends_on:
+     - teamred
+    networks:
+     - esnet
+
+  teamred:
+    # build: ./green
+    image: node:alpine
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=production
+    ports:
+     - "3001:3001"
+    volumes:
+      - ./green/:/home/node/app
+    command: "npm start"
+    networks:
+     - esnet
+
+networks:
+  esnet:
+    driver: bridge

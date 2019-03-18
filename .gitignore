@@ -1,1 +1,8 @@
 
+node_modules
+
+**/dist/**/*.*
+
+nginx/log
+
+**/package-lock.json
